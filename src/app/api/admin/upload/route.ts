@@ -5,9 +5,17 @@ import { NextRequest } from "next/server";
 const BUCKET = "products";
 
 async function ensureBucket() {
-  const { data } = await getSupabaseAdmin().storage.getBucket(BUCKET);
-  if (!data) {
-    await getSupabaseAdmin().storage.createBucket(BUCKET, { public: true });
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.storage.getBucket(BUCKET);
+  if (error || !data) {
+    const { error: createError } = await supabase.storage.createBucket(BUCKET, {
+      public: true,
+      allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/avif"],
+      fileSizeLimit: 5 * 1024 * 1024,
+    });
+    if (createError && !createError.message.includes("already exists")) {
+      throw new Error(`Cannot create bucket: ${createError.message}`);
+    }
   }
 }
 
@@ -32,12 +40,17 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "File too large (max 5MB)" }, { status: 400 });
   }
 
-  await ensureBucket();
+  try {
+    await ensureBucket();
+  } catch (e) {
+    return Response.json({ error: (e as Error).message }, { status: 500 });
+  }
 
   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
+  const supabase = getSupabaseAdmin();
 
-  const { error } = await getSupabaseAdmin().storage
+  const { error } = await supabase.storage
     .from(BUCKET)
     .upload(fileName, buffer, {
       contentType: file.type,
@@ -48,7 +61,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 
-  const { data: urlData } = getSupabaseAdmin().storage
+  const { data: urlData } = supabase.storage
     .from(BUCKET)
     .getPublicUrl(fileName);
 

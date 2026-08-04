@@ -44,6 +44,9 @@ export function ClientApp({ categories, products }: Props) {
           <p className="text-xs text-neutral-300 mt-1">
             ш. Душанбе бозори Кушониён блоки 14 моғозаи 4492
           </p>
+          <a href="/admin" className="inline-block mt-3 text-[10px] text-neutral-300 hover:text-neutral-500 transition-colors">
+            Панель управления
+          </a>
         </div>
       </footer>
 
