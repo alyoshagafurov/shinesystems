@@ -15,6 +15,17 @@ export function Header() {
           <span className="text-sm font-semibold tracking-tight">AUTOSHINE.TJ</span>
         </div>
 
+        <div className="flex items-center gap-1">
+        <a
+          href="/admin"
+          className="p-2"
+          aria-label="Админ-панель"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0110 0v4" />
+          </svg>
+        </a>
         <button
           onClick={() => setIsOpen(true)}
           className="relative p-2 -mr-2"
@@ -31,6 +42,7 @@ export function Header() {
             </span>
           )}
         </button>
+        </div>
       </div>
     </header>
   );
