@@ -1,13 +1,13 @@
 import { isAdmin } from "@/lib/auth";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 import { NextRequest } from "next/server";
 
 const BUCKET = "products";
 
 async function ensureBucket() {
-  const { data } = await supabaseAdmin.storage.getBucket(BUCKET);
+  const { data } = await getSupabaseAdmin().storage.getBucket(BUCKET);
   if (!data) {
-    await supabaseAdmin.storage.createBucket(BUCKET, { public: true });
+    await getSupabaseAdmin().storage.createBucket(BUCKET, { public: true });
   }
 }
 
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  const { error } = await supabaseAdmin.storage
+  const { error } = await getSupabaseAdmin().storage
     .from(BUCKET)
     .upload(fileName, buffer, {
       contentType: file.type,
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 
-  const { data: urlData } = supabaseAdmin.storage
+  const { data: urlData } = getSupabaseAdmin().storage
     .from(BUCKET)
     .getPublicUrl(fileName);
 
