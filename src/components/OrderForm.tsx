@@ -52,7 +52,7 @@ export function OrderForm({ onBack }: Props) {
     if (form.comment) msg += `💬 *Комментарий:* ${form.comment}\n`;
     msg += `\n📦 *Товары:*\n`;
     items.forEach((item, i) => {
-      msg += `${i + 1}. ${item.name}. ${item.quantity}шт*${item.price}с=${item.price * item.quantity}с\n`;
+      msg += `${i + 1}. ${item.name}. ${item.quantity}шт x ${item.price}с=${item.price * item.quantity}с\n`;
     });
     msg += `\n💰 *Итого: ${totalPrice.toLocaleString("ru-RU")} сомони*`;
 

@@ -417,9 +417,8 @@ export default function AdminPage() {
 
                   <div className="space-y-1 mb-3">
                     {order.items.map((item) => (
-                      <div key={item.id} className="flex justify-between text-xs">
-                        <span className="text-neutral-600">{item.name} × {item.quantity}</span>
-                        <span className="font-medium">{(item.price * item.quantity).toLocaleString("ru-RU")} с.</span>
+                      <div key={item.id} className="text-xs text-neutral-600">
+                        {item.name}. {item.quantity}шт x {item.price}с={item.price * item.quantity}с
                       </div>
                     ))}
                   </div>
