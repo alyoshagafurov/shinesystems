@@ -336,7 +336,12 @@ export default function AdminPage() {
                 </select>
 
                 <div className="space-y-2 pt-2">
-                  <p className="text-xs font-medium text-neutral-500">Товары:</p>
+                  <div className="flex gap-2 items-center text-[10px] font-bold text-neutral-400 uppercase">
+                    <span className="flex-1">Товары:</span>
+                    <span className="w-16 text-center">Кол-во</span>
+                    <span className="w-24 text-center">Цена</span>
+                    <span className="w-4"></span>
+                  </div>
                   {editOrder.items.map((item, i) => (
                     <div key={i} className="flex gap-2 items-center">
                       <input
