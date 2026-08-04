@@ -19,6 +19,7 @@ export default function AdminPage() {
   const [editProduct, setEditProduct] = useState<Partial<Product> | null>(null);
   const [editOrder, setEditOrder] = useState<Order | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const checkAuth = useCallback(async () => {
     const res = await fetch("/api/admin/products");
@@ -121,28 +122,43 @@ export default function AdminPage() {
     <div className="min-h-dvh bg-neutral-50">
       <header className="bg-white border-b border-neutral-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-bold">AUTOSHINE.TJ</span>
-            <span className="text-xs text-neutral-400">Админ</span>
-          </div>
-          <div className="flex items-center gap-3">
+          <span className="text-sm font-bold">AUTOSHINE.TJ</span>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 -mr-2"
+            aria-label="Меню"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {menuOpen ? (
+                <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>
+              ) : (
+                <><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></>
+              )}
+            </svg>
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="border-t border-neutral-100 bg-white px-4 py-3 space-y-1">
             <button
-              onClick={() => setTab("products")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium ${tab === "products" ? "bg-neutral-900 text-white" : "text-neutral-500"}`}
+              onClick={() => { setTab("products"); setMenuOpen(false); }}
+              className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium ${tab === "products" ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
             >
               Товары ({products.length})
             </button>
             <button
-              onClick={() => setTab("orders")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium ${tab === "orders" ? "bg-neutral-900 text-white" : "text-neutral-500"}`}
+              onClick={() => { setTab("orders"); setMenuOpen(false); }}
+              className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium ${tab === "orders" ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
             >
               Заказы ({orders.length})
             </button>
-            <button onClick={handleLogout} className="text-xs text-neutral-400 hover:text-neutral-600 ml-2">
+            <a href="/" className="block w-full text-left px-4 py-2.5 rounded-xl text-sm text-neutral-600 hover:bg-neutral-50">
+              На сайт
+            </a>
+            <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="w-full text-left px-4 py-2.5 rounded-xl text-sm text-red-500 hover:bg-red-50">
               Выйти
             </button>
           </div>
-        </div>
+        )}
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
