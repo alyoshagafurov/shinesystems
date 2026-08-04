@@ -23,6 +23,10 @@ export async function PUT(
     });
   }
 
+  const total = body.items
+    ? body.items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0)
+    : body.total;
+
   const order = await prisma.order.update({
     where: { id },
     data: {
@@ -31,7 +35,7 @@ export async function PUT(
       phone: body.phone,
       address: body.address,
       comment: body.comment,
-      total: body.total,
+      total,
       status: body.status,
     },
     include: { items: true },
