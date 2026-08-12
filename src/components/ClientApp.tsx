@@ -23,7 +23,7 @@ interface Product {
   storage: string;
   shelfLife: string;
   price: number;
-  image: string;
+  images: string[];
   inStock: boolean;
   categoryId: string;
 }
