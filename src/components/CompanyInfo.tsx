@@ -22,7 +22,7 @@ export function CompanyInfo() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-6">
         <a
-          href="tel:+992988186161"
+          href="tel:+992029873939"
           className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-neutral-900 text-white text-sm font-medium active:scale-[0.97] transition-transform"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,7 +32,7 @@ export function CompanyInfo() {
         </a>
 
         <a
-          href="https://wa.me/992988186161"
+          href="https://wa.me/992029873939"
           target="_blank"
           rel="noopener"
           className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#25D366] text-white text-sm font-medium active:scale-[0.97] transition-transform"
