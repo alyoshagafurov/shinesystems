@@ -10,7 +10,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "AUTOSHINE.TJ — Детейлинг Маркет",
   description: "Автохимия и аксессуары для детейлинга в Душанбе. Доставка по Таджикистану.",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
