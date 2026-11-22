@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "./CartProvider";
 import { useFavorites } from "./FavoritesProvider";
 import { CATALOG_STATE_KEY } from "@/lib/nav";
+import { SearchBar } from "./SearchBar";
 
 export function Header() {
   const { totalItems, setIsOpen } = useCart();
@@ -25,15 +26,18 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-neutral-100">
-      <div className="px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
+      <div className="px-4 h-14 flex items-center gap-3">
+        <button onClick={goHome} className="flex items-center gap-2.5 shrink-0" aria-label="AUTOSHINE.TJ — на главную">
           <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center overflow-hidden">
             <Image src="/logo.png" alt="AUTOSHINE.TJ" width={32} height={32} className="w-full h-full object-contain" />
           </div>
-          <span className="text-sm font-semibold tracking-tight">AUTOSHINE.TJ</span>
-        </div>
+          <span className="hidden sm:inline text-sm font-semibold tracking-tight">AUTOSHINE.TJ</span>
+        </button>
 
-        <div className="flex items-center gap-1">
+        <SearchBar />
+
+        {/* On phones these move to the bottom bar. */}
+        <div className="hidden sm:flex items-center gap-1 shrink-0">
           <button onClick={goHome} className="p-2" aria-label="Главная">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />

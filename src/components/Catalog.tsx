@@ -2,11 +2,11 @@
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { SearchBar } from "./SearchBar";
 import { CategoryFilter } from "./CategoryFilter";
 import { ProductCard } from "./ProductCard";
 import { useFavorites } from "./FavoritesProvider";
 import { CATALOG_STATE_KEY } from "@/lib/nav";
+import { onSearchQuery, setSearchQuery as setSearch, useSearchQuery } from "@/lib/search-query";
 
 export interface CatalogCategory {
   id: string;
@@ -47,7 +47,7 @@ function getDescendantIds(categories: CatalogCategory[], parentId: string): Set<
 }
 
 export function Catalog({ categories, products }: Props) {
-  const [search, setSearch] = useState("");
+  const search = useSearchQuery();
   const [categoryPath, setCategoryPath] = useState<string[]>([]);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [searchIndex, setSearchIndex] = useState<Record<string, string> | null>(null);
@@ -178,17 +178,20 @@ export function Catalog({ categories, products }: Props) {
     setLimit(PAGE_SIZE);
   }, []);
 
-  const handleSearch = useCallback((value: string) => {
-    setSearch(value);
-    setLimit(PAGE_SIZE);
-    if (value.trim()) loadSearchIndex();
-  }, [loadSearchIndex]);
+  // The search field lives in the header; react to it here.
+  useEffect(
+    () =>
+      onSearchQuery((value) => {
+        setLimit(PAGE_SIZE);
+        if (value.trim()) loadSearchIndex();
+      }),
+    [loadSearchIndex]
+  );
 
   const searching = query !== "" && indexStatus === "loading";
 
   return (
     <>
-      <SearchBar value={search} onChange={handleSearch} />
       <CategoryFilter categories={categories} activePath={categoryPath} onNavigate={handleNavigate} />
 
       <section onClickCapture={saveState} className="sm:px-4 sm:py-6 py-0">

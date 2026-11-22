@@ -6,6 +6,7 @@ import { FavoritesProvider, useFavorites } from "./FavoritesProvider";
 import { Header } from "./Header";
 import { CartDrawer } from "./CartDrawer";
 import { FavoritesDrawer } from "./FavoritesDrawer";
+import { MobileNav } from "./MobileNav";
 
 interface DrawerProduct {
   id: string;
@@ -54,6 +55,7 @@ export function SiteShell({ children, products }: { children: ReactNode; product
             </a>
           </div>
         </footer>
+        <MobileNav />
 
         <CartDrawer />
         <Favorites products={products} />
